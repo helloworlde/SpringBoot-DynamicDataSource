@@ -10,8 +10,8 @@ import java.io.IOException;
 /**
  * Generate response for request
  *
- * @Date 2017-07-11 15:45
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 15:45
  * @Email hellowoodes@gmail.com
  */
 public class ResponseUtil {

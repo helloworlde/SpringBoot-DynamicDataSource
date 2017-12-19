@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Product controller
  *
- * @Date 2017-07-11 11:38
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 11:38
  * @Email hellowoodes@gmail.com
  */
 

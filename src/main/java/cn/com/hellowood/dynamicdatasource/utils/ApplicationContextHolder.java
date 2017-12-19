@@ -6,8 +6,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * @Date 2017-07-11 10:37
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 10:37
  * @Email hellowoodes@gmail.com
  */
 

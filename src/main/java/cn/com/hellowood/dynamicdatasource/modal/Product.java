@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * Product bean
  *
- * @Date 2017-07-11 11:09
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 11:09
  * @Email hellowoodes@gmail.com
  */
 public class Product implements Serializable {

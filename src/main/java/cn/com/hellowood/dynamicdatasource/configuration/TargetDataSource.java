@@ -5,8 +5,8 @@ import java.lang.annotation.*;
 /**
  * Multiple DataSource Aspect For Switch DataSource
  *
- * @Date 2017-08-15 14:36
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-08-15 14:36
  * @Email hellowoodes@gmail.com
  */
 @Target({ElementType.METHOD, ElementType.TYPE})

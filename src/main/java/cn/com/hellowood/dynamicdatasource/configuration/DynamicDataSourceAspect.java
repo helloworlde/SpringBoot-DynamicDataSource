@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 /**
  * Multiple DataSource Aspect
  *
- * @Date 2017-08-15 11:37
- * @Author HelloWood
- * @Email hellowoodes@gmail.com
+ * @author HelloWood
+ * @date 2017-08-15 11:37
+ * @email hellowoodes@gmail.com
  */
 @Aspect
 @Order(-1) // To ensure execute before @Transactional
@@ -31,13 +31,11 @@ public class DynamicDataSourceAspect {
     @Before("@annotation(targetDataSource))")
     public void switchDataSource(JoinPoint point, TargetDataSource targetDataSource) {
         if (!DynamicDataSourceContextHolder.containDataSourceKey(targetDataSource.value())) {
-            logger.error("DataSource [{}] doesn't exist, use default DataSource [{}]",
-                    targetDataSource.value(), point.getSignature());
+            logger.error("DataSource [{}] doesn't exist, use default DataSource [{}]", targetDataSource.value());
         } else {
-            logger.info("Current DataSource is [{}]", DynamicDataSourceContextHolder.getDataSourceKey());
-            logger.info("Switch DataSource to [{}] in Method [{}]",
-                    targetDataSource.value(), point.getSignature());
             DynamicDataSourceContextHolder.setDataSourceKey(targetDataSource.value());
+            logger.info("Switch DataSource to [{}] in Method [{}]",
+                    DynamicDataSourceContextHolder.getDataSourceKey(), point.getSignature());
         }
     }
 
@@ -49,9 +47,9 @@ public class DynamicDataSourceAspect {
      */
     @After("@annotation(targetDataSource))")
     public void restoreDataSource(JoinPoint point, TargetDataSource targetDataSource) {
-        logger.info("Restore DataSource to [{}] in Method [{}]",
-                targetDataSource.value(), point.getSignature());
         DynamicDataSourceContextHolder.clearDataSourceKey();
+        logger.info("Restore DataSource to [{}] in Method [{}]",
+                DynamicDataSourceContextHolder.getDataSourceKey(), point.getSignature());
     }
 
 }

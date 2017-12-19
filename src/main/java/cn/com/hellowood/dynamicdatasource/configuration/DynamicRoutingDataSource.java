@@ -7,8 +7,8 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 /**
  * Multiple DataSource Configurer
  *
- * @Date 2017-08-15 11:37
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-08-15 11:37
  * @Email hellowoodes@gmail.com
  */
 

@@ -3,8 +3,8 @@ package cn.com.hellowood.dynamicdatasource.common;
 /**
  * Common constant
  *
- * @Date 2017-07-11 15:46
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 15:46
  * @Email hellowoodes@gmail.com
  */
 public class CommonConstant {

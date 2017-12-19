@@ -6,8 +6,8 @@ import cn.com.hellowood.dynamicdatasource.utils.JSONUtil;
 /**
  * Response bean for format response
  *
- * @Date 2017-07-11 15:33
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 15:33
  * @Email hellowoodes@gmail.com
  */
 public class CommonResponse {

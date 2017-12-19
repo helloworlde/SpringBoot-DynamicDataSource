@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * Product mapper for operate data of products table
  *
- * @Date 2017-07-11 10:54
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 10:54
  * @Email hellowoodes@gmail.com
  */
 

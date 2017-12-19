@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Custom exception handler
  *
- * @Date 2017-07-11 21:03
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 21:03
  * @Email hellowoodes@gmail.com
  */
 public class CustomHandlerExceptionResolver implements HandlerExceptionResolver {

@@ -1,12 +1,10 @@
 package cn.com.hellowood.dynamicdatasource.utils;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -15,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author HelloWood
- * @create 2017-07-30 22:26
+ * @date 2017-07-30 22:26
  * @email hellowoodes@gmail.com
  **/
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class HttpLog {
 
     public static final Logger logger = LoggerFactory.getLogger(HttpLog.class);

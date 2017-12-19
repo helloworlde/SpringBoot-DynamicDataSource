@@ -12,8 +12,8 @@ import java.text.SimpleDateFormat;
 /**
  * JSON data util, for parse and generate JSON data
  *
- * @Date 2017-07-11 16:11
- * @Author HelloWood
+ * @author HelloWood
+ * @date 2017-07-11 16:11
  * @Email hellowoodes@gmail.com
  */
 
