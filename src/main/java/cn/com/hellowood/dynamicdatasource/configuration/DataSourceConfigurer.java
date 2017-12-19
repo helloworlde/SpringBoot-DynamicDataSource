@@ -1,11 +1,10 @@
 package cn.com.hellowood.dynamicdatasource.configuration;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -14,9 +13,9 @@ import java.util.Map;
 /**
  * Multiple DataSource Configurer
  *
- * @Date 2017-08-15 11:37
- * @Author HelloWood
- * @Email hellowoodes@gmail.com
+ * @author HelloWood
+ * @date 2017 -08-15 11:37
+ * @Email hellowoodes @gmail.com
  */
 @Configuration
 public class DataSourceConfigurer {
@@ -24,11 +23,9 @@ public class DataSourceConfigurer {
     /**
      * master DataSource
      *
-     * @return
+     * @return data source
      */
     @Bean("master")
-    @Qualifier("master")
-    @Primary
     @ConfigurationProperties(prefix = "application.server.db.master")
     public DataSource master() {
         return DataSourceBuilder.create().build();
@@ -37,53 +34,54 @@ public class DataSourceConfigurer {
     /**
      * slave DataSource
      *
-     * @return
+     * @return data source
      */
     @Bean("slave")
-    @Qualifier("slave")
     @ConfigurationProperties(prefix = "application.server.db.slave")
     public DataSource slave() {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * Dynamic data source.
+     *
+     * @return the data source
+     */
     @Bean("dynamicDataSource")
-    @Qualifier("dynamicDataSource")
-    public DataSource dataSource() {
+    public DataSource dynamicDataSource() {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
-
-        dynamicRoutingDataSource.setDefaultTargetDataSource(slave());
-
         Map<Object, Object> dataSourceMap = new HashMap<>(2);
         dataSourceMap.put("master", master());
         dataSourceMap.put("slave", slave());
+
+        // Set master datasource as default
+        dynamicRoutingDataSource.setDefaultTargetDataSource(master());
+        // Set master and slave datasource as target datasource
         dynamicRoutingDataSource.setTargetDataSources(dataSourceMap);
-        DynamicDataSourceContextHolder.dataSourceIds.addAll(dataSourceMap.keySet());
+
+        // To put datasource keys into DataSourceContextHolder to judge if the datasource is exist
+        DynamicDataSourceContextHolder.dataSourceKeys.addAll(dataSourceMap.keySet());
         return dynamicRoutingDataSource;
     }
-//
-//    @Bean
-//    public PlatformTransactionManager transactionManager(DataSource dynamicDataSource) {
-//        return new DataSourceTransactionManager(dynamicDataSource);
-//    }
-//
-//    @Bean
-//    @ConfigurationProperties(prefix = "mybatis")
-//    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dynamicDataSource) {
-//        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-//        sqlSessionFactoryBean.setDataSource(dynamicDataSource);
-//        return sqlSessionFactoryBean;
-//    }
-//
-//    @Bean
-//    public SqlSessionFactory sqlSessionFactory() throws Exception {
-//        return sqlSessionFactoryBean(dataSource()).getObject();
-////        return sqlSessionFactoryBean.getObject();
-//    }
-//
-//    @Bean
-//    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-//        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
-//        return sqlSessionTemplate;
-//    }
+
+    /**
+     * Sql session factory bean.
+     * Here to config datasource for SqlSessionFactory
+     * <p>
+     * You need to add @{@code @ConfigurationProperties(prefix = "mybatis")}, if you are using *.xml file,
+     * the {@code 'mybatis.type-aliases-package'} and {@code 'mybatis.mapper-locations'} should be set in
+     * {@code 'application.properties'} file, or there will appear invalid bond statement exception
+     *
+     * @return the sql session factory bean
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "mybatis")
+    public SqlSessionFactoryBean sqlSessionFactoryBean() {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        // Here is very important, if don't config this, will can't switch datasource
+        // put all datasource into SqlSessionFactoryBean, then will autoconfig SqlSessionFactory
+        sqlSessionFactoryBean.setDataSource(dynamicDataSource());
+        return sqlSessionFactoryBean;
+    }
 }
 
