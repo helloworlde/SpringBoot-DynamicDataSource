@@ -32,16 +32,17 @@ public class CustomHandlerExceptionResolver implements HandlerExceptionResolver 
         CommonResponse commonResponse = new CommonResponse();
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-
-            if (ex instanceof ServiceException) {//Service exception,handler exception from service
+            //Service exception,handler exception from service
+            if (ex instanceof ServiceException) {
                 commonResponse.setCode(ResponseCode.SUCCESS).setMessage(ex.getMessage());
                 logger.warn(ex.getMessage());
             } else {
-
-                if (ex instanceof DataAccessException) {//DB exception
+                //DB exception
+                if (ex instanceof DataAccessException) {
                     commonResponse.setCode(ResponseCode.INTERNAL_SERVER_ERROR)
                             .setMessage(CommonConstant.DB_ERROR_MESSAGE);
-                } else {//Others exception
+                } else {
+                    //Others exception
                     commonResponse.setCode(ResponseCode.INTERNAL_SERVER_ERROR)
                             .setMessage(CommonConstant.SERVER_ERROR_MESSAGE);
                 }

@@ -2,7 +2,6 @@ package cn.com.hellowood.dynamicdatasource.controller;
 
 import cn.com.hellowood.dynamicdatasource.common.CommonResponse;
 import cn.com.hellowood.dynamicdatasource.common.ResponseUtil;
-import cn.com.hellowood.dynamicdatasource.configuration.TargetDataSource;
 import cn.com.hellowood.dynamicdatasource.modal.Product;
 import cn.com.hellowood.dynamicdatasource.service.ProductService;
 import cn.com.hellowood.dynamicdatasource.utils.ServiceException;
@@ -32,7 +31,6 @@ public class ProduceController {
      * @throws ServiceException
      */
     @GetMapping("/{id}")
-    @TargetDataSource("slave")
     public CommonResponse getProduct(@PathVariable("id") Long productId) throws ServiceException {
         return ResponseUtil.generateResponse(productService.select(productId));
     }
@@ -44,9 +42,8 @@ public class ProduceController {
      * @throws ServiceException
      */
     @GetMapping
-    @TargetDataSource("master")
-    public CommonResponse getAllProduct() throws ServiceException {
-        return ResponseUtil.generateResponse(productService.selectAll());
+    public CommonResponse getAllProduct() {
+        return ResponseUtil.generateResponse(productService.getAllProduct());
     }
 
     /**

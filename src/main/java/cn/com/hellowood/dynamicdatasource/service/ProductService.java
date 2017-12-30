@@ -1,10 +1,12 @@
 package cn.com.hellowood.dynamicdatasource.service;
 
-import cn.com.hellowood.dynamicdatasource.mapper.ProductMapper;
+import cn.com.hellowood.dynamicdatasource.mapper.ProductDao;
 import cn.com.hellowood.dynamicdatasource.modal.Product;
 import cn.com.hellowood.dynamicdatasource.utils.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    private ProductMapper productMapper;
+    private ProductDao productDao;
 
     /**
      * Get product by id
@@ -31,7 +33,7 @@ public class ProductService {
      * @throws ServiceException
      */
     public Product select(long productId) throws ServiceException {
-        Product product = productMapper.select(productId);
+        Product product = productDao.select(productId);
         if (product == null) {
             throw new ServiceException("Product:" + productId + " not found");
         }
@@ -47,9 +49,10 @@ public class ProductService {
      * @return
      * @throws ServiceException
      */
+    @Transactional(rollbackFor = DataAccessException.class)
     public Product update(long productId, Product newProduct) throws ServiceException {
 
-        if (productMapper.update(newProduct) <= 0) {
+        if (productDao.update(newProduct) <= 0) {
             throw new ServiceException("Update product:" + productId + "failed");
         }
         return newProduct;
@@ -62,8 +65,9 @@ public class ProductService {
      * @return
      * @throws ServiceException
      */
+    @Transactional(rollbackFor = DataAccessException.class)
     public boolean add(Product newProduct) throws ServiceException {
-        Integer num = productMapper.insert(newProduct);
+        Integer num = productDao.insert(newProduct);
         if (num <= 0) {
             throw new ServiceException("Add product failed");
         }
@@ -77,8 +81,9 @@ public class ProductService {
      * @return
      * @throws ServiceException
      */
+    @Transactional(rollbackFor = DataAccessException.class)
     public boolean delete(long productId) throws ServiceException {
-        Integer num = productMapper.delete(productId);
+        Integer num = productDao.delete(productId);
         if (num <= 0) {
             throw new ServiceException("Delete product:" + productId + "failed");
         }
@@ -86,11 +91,11 @@ public class ProductService {
     }
 
     /**
-     * Query all product
+     * Get all product
      *
      * @return
      */
-    public List<Product> selectAll() {
-        return productMapper.selectAll();
+    public List<Product> getAllProduct() {
+        return productDao.getAllProduct();
     }
 }

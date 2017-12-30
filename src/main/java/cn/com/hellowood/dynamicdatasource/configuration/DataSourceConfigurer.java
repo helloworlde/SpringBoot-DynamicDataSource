@@ -1,10 +1,14 @@
 package cn.com.hellowood.dynamicdatasource.configuration;
 
+import cn.com.hellowood.dynamicdatasource.common.DataSourceKey;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -26,19 +30,42 @@ public class DataSourceConfigurer {
      * @return data source
      */
     @Bean("master")
+    @Primary
     @ConfigurationProperties(prefix = "application.server.db.master")
     public DataSource master() {
         return DataSourceBuilder.create().build();
     }
 
     /**
-     * slave DataSource
+     * Slave alpha data source.
      *
-     * @return data source
+     * @return the data source
      */
-    @Bean("slave")
-    @ConfigurationProperties(prefix = "application.server.db.slave")
-    public DataSource slave() {
+    @Bean("slaveAlpha")
+    @ConfigurationProperties(prefix = "application.server.db.slave-alpha")
+    public DataSource slaveAlpha() {
+        return DataSourceBuilder.create().build();
+    }
+
+    /**
+     * Slave beta data source.
+     *
+     * @return the data source
+     */
+    @Bean("slaveBeta")
+    @ConfigurationProperties(prefix = "application.server.db.slave-beta")
+    public DataSource slaveBeta() {
+        return DataSourceBuilder.create().build();
+    }
+
+    /**
+     * Slave gamma data source.
+     *
+     * @return the data source
+     */
+    @Bean("slaveGamma")
+    @ConfigurationProperties(prefix = "application.server.db.slave-gamma")
+    public DataSource slaveGamma() {
         return DataSourceBuilder.create().build();
     }
 
@@ -50,9 +77,11 @@ public class DataSourceConfigurer {
     @Bean("dynamicDataSource")
     public DataSource dynamicDataSource() {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
-        Map<Object, Object> dataSourceMap = new HashMap<>(2);
-        dataSourceMap.put("master", master());
-        dataSourceMap.put("slave", slave());
+        Map<Object, Object> dataSourceMap = new HashMap<>(4);
+        dataSourceMap.put(DataSourceKey.master.name(), master());
+        dataSourceMap.put(DataSourceKey.slaveAlpha.name(), slaveAlpha());
+        dataSourceMap.put(DataSourceKey.slaveBeta.name(), slaveBeta());
+        dataSourceMap.put(DataSourceKey.slaveGamma.name(), slaveGamma());
 
         // Set master datasource as default
         dynamicRoutingDataSource.setDefaultTargetDataSource(master());
@@ -61,6 +90,10 @@ public class DataSourceConfigurer {
 
         // To put datasource keys into DataSourceContextHolder to judge if the datasource is exist
         DynamicDataSourceContextHolder.dataSourceKeys.addAll(dataSourceMap.keySet());
+
+        // To put slave datasource keys into DataSourceContextHolder to load balance
+        DynamicDataSourceContextHolder.slaveDataSourceKeys.addAll(dataSourceMap.keySet());
+        DynamicDataSourceContextHolder.slaveDataSourceKeys.remove(DataSourceKey.master.name());
         return dynamicRoutingDataSource;
     }
 
@@ -82,6 +115,16 @@ public class DataSourceConfigurer {
         // put all datasource into SqlSessionFactoryBean, then will autoconfig SqlSessionFactory
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
         return sqlSessionFactoryBean;
+    }
+
+    /**
+     * Transaction manager platform transaction manager.
+     *
+     * @return the platform transaction manager
+     */
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dynamicDataSource());
     }
 }
 

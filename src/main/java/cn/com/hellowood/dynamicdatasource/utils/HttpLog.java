@@ -37,24 +37,24 @@ public class HttpLog {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         //URL
-        logger.info("url:{}", request.getRequestURL());
+        logger.debug("url:{}", request.getRequestURL());
         //Request method
-        logger.info("method:{}", request.getMethod());
+        logger.debug("method:{}", request.getMethod());
         //IP
-        logger.info("ip:{}", request.getRemoteAddr());
+        logger.debug("ip:{}", request.getRemoteAddr());
         //Class method name
-        logger.info("method:{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        logger.debug("method:{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         // Argument
-        logger.info("args:{}", JSONUtil.toJSONString(joinPoint.getArgs()));
+        logger.debug("args:{}", JSONUtil.toJSONString(joinPoint.getArgs()));
     }
 
     @After("httpLog()")
     public void doAfter() {
-        logger.info("request cost time:{} ms", System.currentTimeMillis() - startTime.get());
+        logger.debug("request cost time:{} ms", System.currentTimeMillis() - startTime.get());
     }
 
     @AfterReturning(returning = "object", pointcut = "httpLog()")
     public void afterReturning(Object object) {
-        logger.info("response:{}", JSONUtil.toJSONString(object));
+        logger.debug("response:{}", JSONUtil.toJSONString(object));
     }
 }

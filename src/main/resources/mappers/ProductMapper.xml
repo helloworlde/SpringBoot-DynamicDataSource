@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.com.hellowood.dynamicdatasource.mapper.ProductMapper">
+<mapper namespace="cn.com.hellowood.dynamicdatasource.mapper.ProductDao">
 
     <resultMap id="baseResultMap" type="cn.com.hellowood.dynamicdatasource.modal.Product">
         <id column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"></id>
@@ -8,35 +8,32 @@
         <result column="price" property="price" javaType="java.lang.Long" jdbcType="BIGINT"></result>
     </resultMap>
 
-    <!--&lt;!&ndash; Open Redis &ndash;&gt;-->
-    <!--<cache type="cn.com.hellowood.utils.RedisCache"/>-->
-
     <select id="select" resultType="cn.com.hellowood.dynamicdatasource.modal.Product">
         SELECT *
-        FROM products
+        FROM product
         WHERE id = #{id}
         LIMIT 1
     </select>
 
-    <select id="selectAll" resultMap="baseResultMap">
+    <select id="getAllProduct" resultMap="baseResultMap">
         SELECT *
-        FROM products
+        FROM product
     </select>
 
     <update id="update" parameterType="cn.com.hellowood.dynamicdatasource.modal.Product" flushCache="true">
-        UPDATE products
+        UPDATE product
         SET name = #{name}, price = #{price}
         WHERE id = #{id}
         LIMIT 1
     </update>
 
     <delete id="delete" parameterType="java.lang.Long">
-        DELETE FROM products
+        DELETE FROM product
         WHERE id = #{id}
         LIMIT 1
     </delete>
 
     <insert id="insert" parameterType="cn.com.hellowood.dynamicdatasource.modal.Product">
-        INSERT INTO products (name, price) VALUES (#{name}, #{price});
+        INSERT INTO product (name, price) VALUES (#{name}, #{price});
     </insert>
 </mapper>

@@ -75,8 +75,7 @@ public class ResponseUtil {
         } else {
             commonResponse
                     .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.NO_RESULT_MESSAGE)
-                    .setData(data);
+                    .setMessage(CommonConstant.NO_RESULT_MESSAGE);
 
         }
         return commonResponse;
