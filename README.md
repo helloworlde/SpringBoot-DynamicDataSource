@@ -447,6 +447,7 @@ public class DynamicDataSourceContextHolder {
 - DynamicDataSourceAspect.java
 
 > 动态数据源切换的切面，切 DAO 层，通过 DAO 层方法名判断使用哪个数据源，实现数据源切换
+> 关于切面的 Order 可以可以不设，因为 `@Transactional` 是最低的，取决于其他切面的设置，并且在 `org.springframework.core.annotation.AnnotationAwareOrderComparator` 会重新排序
 
 ```java
 package cn.com.hellowood.dynamicdatasource.configuration;
