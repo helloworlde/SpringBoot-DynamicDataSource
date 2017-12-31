@@ -31,7 +31,7 @@ public class DataSourceConfigurer {
      */
     @Bean("master")
     @Primary
-    @ConfigurationProperties(prefix = "application.server.db.master")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.master")
     public DataSource master() {
         return DataSourceBuilder.create().build();
     }
@@ -42,7 +42,7 @@ public class DataSourceConfigurer {
      * @return the data source
      */
     @Bean("slaveAlpha")
-    @ConfigurationProperties(prefix = "application.server.db.slave-alpha")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-alpha")
     public DataSource slaveAlpha() {
         return DataSourceBuilder.create().build();
     }
@@ -53,7 +53,7 @@ public class DataSourceConfigurer {
      * @return the data source
      */
     @Bean("slaveBeta")
-    @ConfigurationProperties(prefix = "application.server.db.slave-beta")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-beta")
     public DataSource slaveBeta() {
         return DataSourceBuilder.create().build();
     }
@@ -64,7 +64,7 @@ public class DataSourceConfigurer {
      * @return the data source
      */
     @Bean("slaveGamma")
-    @ConfigurationProperties(prefix = "application.server.db.slave-gamma")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-gamma")
     public DataSource slaveGamma() {
         return DataSourceBuilder.create().build();
     }
