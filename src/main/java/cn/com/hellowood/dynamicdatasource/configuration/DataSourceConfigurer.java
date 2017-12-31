@@ -1,8 +1,8 @@
 package cn.com.hellowood.dynamicdatasource.configuration;
 
 import cn.com.hellowood.dynamicdatasource.common.DataSourceKey;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,7 @@ public class DataSourceConfigurer {
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource.druid.master")
     public DataSource master() {
-        return DataSourceBuilder.create().build();
+        return DruidDataSourceBuilder.create().build();
     }
 
     /**
@@ -44,7 +44,7 @@ public class DataSourceConfigurer {
     @Bean("slaveAlpha")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-alpha")
     public DataSource slaveAlpha() {
-        return DataSourceBuilder.create().build();
+        return DruidDataSourceBuilder.create().build();
     }
 
     /**
@@ -55,7 +55,7 @@ public class DataSourceConfigurer {
     @Bean("slaveBeta")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-beta")
     public DataSource slaveBeta() {
-        return DataSourceBuilder.create().build();
+        return DruidDataSourceBuilder.create().build();
     }
 
     /**
@@ -66,7 +66,7 @@ public class DataSourceConfigurer {
     @Bean("slaveGamma")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-gamma")
     public DataSource slaveGamma() {
-        return DataSourceBuilder.create().build();
+        return DruidDataSourceBuilder.create().build();
     }
 
     /**
