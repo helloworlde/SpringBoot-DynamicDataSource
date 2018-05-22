@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Multiple DataSource Context Holder
@@ -20,8 +18,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DynamicDataSourceContextHolder {
 
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceContextHolder.class);
-
-    private static Lock lock = new ReentrantLock();
 
     private static int counter = 0;
 
@@ -61,8 +57,6 @@ public class DynamicDataSourceContextHolder {
      * Use slave data source.
      */
     public static void useSlaveDataSource() {
-        lock.lock();
-
         try {
             int datasourceKeyIndex = counter % slaveDataSourceKeys.size();
             CONTEXT_HOLDER.set(String.valueOf(slaveDataSourceKeys.get(datasourceKeyIndex)));
@@ -71,8 +65,6 @@ public class DynamicDataSourceContextHolder {
             logger.error("Switch slave datasource failed, error message is {}", e.getMessage());
             useMasterDataSource();
             e.printStackTrace();
-        } finally {
-            lock.unlock();
         }
     }
 
