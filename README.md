@@ -428,7 +428,7 @@ public class DynamicDataSourceAspect {
         }
     }
 
-    @After("daoAspect())")
+    @After("daoAspect()")
     public void restoreDataSource(JoinPoint point) {
         DynamicDataSourceContextHolder.clearDataSourceKey();
         logger.info("Restore DataSource to [{}] in Method [{}]",
