@@ -412,7 +412,7 @@ import org.springframework.stereotype.Component;
 public class DynamicDataSourceAspect {
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceAspect.class);
 
-    private final String[] QUERY_PREFIX = {"select"};
+    private final String[] QUERY_PREFIX = {"get"};
 
     @Pointcut("execution( * cn.com.hellowood.dynamicdatasource.mapper.*.*(..))")
     public void daoAspect() {
