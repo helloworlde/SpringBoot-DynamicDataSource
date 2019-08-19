@@ -8,7 +8,7 @@
 - [aspect_dao](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao): 通过切面实现的 DAO 层的动态数据源切换
 - [roundrobin](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin): 通过切面使用轮询方式实现的只读数据源负载均衡
 - [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0版本 数据源使用 Hikar
-- **[多数据源分布式事](https://github.com/helloworlde/spring-cloud-alibaba-component/tree/master/cloud-seata-multi-datasource): 使用 [Seata](https://github.com/seata/seata) 实现的多数据源事务**
+- **[多数据源分布式事务](https://github.com/helloworlde/spring-cloud-alibaba-component/tree/master/cloud-seata-multi-datasource): 使用 [Seata](https://github.com/seata/seata) 实现的多数据源事务**
 
 > 以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源
 
