@@ -10,6 +10,7 @@
 - [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0版本 数据源使用 Hikar
 - **[多数据源分布式事务](https://github.com/helloworlde/spring-cloud-alibaba-component/tree/master/cloud-seata-multi-datasource): 使用 [Seata](https://github.com/seata/seata) 实现的多数据源事务** 
 
+
 > 以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源
 
 ### 在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 [Issues](https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md) 里面
@@ -459,9 +460,9 @@ package cn.com.hellowood.dynamicdatasource.controller;
 
 import cn.com.hellowood.dynamicdatasource.common.CommonResponse;
 import cn.com.hellowood.dynamicdatasource.common.ResponseUtil;
-import cn.com.hellowood.dynamicdatasource.modal.Product;
+import cn.com.hellowood.dynamicdatasource.model.Product;
 import cn.com.hellowood.dynamicdatasource.service.ProductService;
-import cn.com.hellowood.dynamicdatasource.utils.ServiceException;
+import cn.com.hellowood.dynamicdatasource.error.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -506,8 +507,8 @@ public class ProductController {
 package cn.com.hellowood.dynamicdatasource.service;
 
 import cn.com.hellowood.dynamicdatasource.mapper.ProductDao;
-import cn.com.hellowood.dynamicdatasource.modal.Product;
-import cn.com.hellowood.dynamicdatasource.utils.ServiceException;
+import cn.com.hellowood.dynamicdatasource.model.Product;
+import cn.com.hellowood.dynamicdatasource.error.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -568,7 +569,7 @@ public class ProductService {
 ```java
 package cn.com.hellowood.dynamicdatasource.mapper;
 
-import cn.com.hellowood.dynamicdatasource.modal.Product;
+import cn.com.hellowood.dynamicdatasource.model.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

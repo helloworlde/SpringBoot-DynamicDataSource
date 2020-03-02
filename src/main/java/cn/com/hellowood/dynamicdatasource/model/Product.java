@@ -1,4 +1,4 @@
-package cn.com.hellowood.dynamicdatasource.modal;
+package cn.com.hellowood.dynamicdatasource.model;
 
 import java.io.Serializable;
 

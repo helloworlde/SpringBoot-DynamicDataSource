@@ -1,6 +1,6 @@
 package cn.com.hellowood.dynamicdatasource.mapper;
 
-import cn.com.hellowood.dynamicdatasource.modal.Product;
+import cn.com.hellowood.dynamicdatasource.model.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
