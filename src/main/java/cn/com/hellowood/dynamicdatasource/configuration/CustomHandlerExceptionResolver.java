@@ -4,7 +4,7 @@ import cn.com.hellowood.dynamicdatasource.common.CommonConstant;
 import cn.com.hellowood.dynamicdatasource.common.CommonResponse;
 import cn.com.hellowood.dynamicdatasource.common.ResponseCode;
 import cn.com.hellowood.dynamicdatasource.common.ResponseUtil;
-import cn.com.hellowood.dynamicdatasource.utils.ServiceException;
+import cn.com.hellowood.dynamicdatasource.error.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

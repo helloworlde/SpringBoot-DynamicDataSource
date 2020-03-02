@@ -1,8 +1,8 @@
 package cn.com.hellowood.dynamicdatasource.service;
 
 import cn.com.hellowood.dynamicdatasource.mapper.ProductDao;
-import cn.com.hellowood.dynamicdatasource.modal.Product;
-import cn.com.hellowood.dynamicdatasource.utils.ServiceException;
+import cn.com.hellowood.dynamicdatasource.model.Product;
+import cn.com.hellowood.dynamicdatasource.error.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;

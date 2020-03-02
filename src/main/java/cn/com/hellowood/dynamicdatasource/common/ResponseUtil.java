@@ -19,69 +19,6 @@ public class ResponseUtil {
     private static final Logger logger = LoggerFactory.getLogger(ResponseUtil.class);
 
     /**
-     * return response with default success or error message by status
-     *
-     * @param resultStatus
-     * @return
-     */
-    public static CommonResponse generateResponse(boolean resultStatus) {
-        CommonResponse commonResponse = new CommonResponse();
-        if (resultStatus) {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.DEFAULT_SUCCESS_MESSAGE);
-        } else {
-            commonResponse
-                    .setCode(ResponseCode.FAIL)
-                    .setMessage(CommonConstant.DEFAULT_FAIL_MESSAGE);
-        }
-        return commonResponse;
-    }
-
-    /**
-     * return response with custom message by status
-     *
-     * @param message
-     * @param resultStatus
-     * @return
-     */
-    public static CommonResponse generateResponse(String message, boolean resultStatus) {
-        CommonResponse commonResponse = new CommonResponse();
-        if (resultStatus) {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(message);
-        } else {
-            commonResponse
-                    .setCode(ResponseCode.FAIL)
-                    .setMessage(message);
-        }
-        return commonResponse;
-    }
-
-    /**
-     * return response with data,if data is null,return no data message,or return data
-     *
-     * @param data
-     * @return
-     */
-    public static CommonResponse generateResponse(Object data) {
-        CommonResponse commonResponse = new CommonResponse();
-        if (data != null) {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.DEFAULT_SUCCESS_MESSAGE)
-                    .setData(data);
-        } else {
-            commonResponse
-                    .setCode(ResponseCode.SUCCESS)
-                    .setMessage(CommonConstant.NO_RESULT_MESSAGE);
-
-        }
-        return commonResponse;
-    }
-
-    /**
      * Handler response information
      *
      * @param response
