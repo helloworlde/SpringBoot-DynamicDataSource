@@ -7,7 +7,9 @@
 - [druid](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/druid): 通过切面和注解方式实现的使用 Druid 连接池的动态数据源切换
 - [aspect_dao](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao): 通过切面实现的 DAO 层的动态数据源切换
 - [roundrobin](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin): 通过切面使用轮询方式实现的只读数据源负载均衡
-- [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0, 数据源使用 Hikari
+- [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0版本 数据源使用 Hikar
+- **[多数据源分布式事务](https://github.com/helloworlde/spring-cloud-alibaba-component/tree/master/cloud-seata-multi-datasource): 使用 [Seata](https://github.com/seata/seata) 实现的多数据源事务** 
+
 
 > 以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源
 
@@ -29,10 +31,9 @@
 ## 添加依赖
 ```groovy
 dependencies {
-    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-aop')
-    compile('com.alibaba:druid-spring-boot-starter:1.1.6')
     runtime('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
@@ -84,88 +85,40 @@ INSERT INTO product_slave_gamma.product (name, price) VALUES('slaveGamma', '1');
 - application.properties
 
 ```properties
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
 # Master datasource config
-spring.datasource.druid.master.name=master
-spring.datasource.druid.master.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.druid.master.url=jdbc:mysql://localhost/product_master?useSSL=false
-spring.datasource.druid.master.port=3306
-spring.datasource.druid.master.username=root
-spring.datasource.druid.master.password=123456
+spring.datasource.hikari.master.name=master
+spring.datasource.hikari.master.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.hikari.master.jdbc-url=jdbc:mysql://localhost/product_master?useSSL=false
+spring.datasource.hikari.master.port=3306
+spring.datasource.hikari.master.username=root
+spring.datasource.hikari.master.password=123456
 
 # SlaveAlpha datasource config
-spring.datasource.druid.slave-alpha.name=SlaveAlpha
-spring.datasource.druid.slave-alpha.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.druid.slave-alpha.url=jdbc:mysql://localhost/product_slave_alpha?useSSL=false
-spring.datasource.druid.slave-alpha.port=3306
-spring.datasource.druid.slave-alpha.username=root
-spring.datasource.druid.slave-alpha.password=123456
+spring.datasource.hikari.slave-alpha.name=SlaveAlpha
+spring.datasource.hikari.slave-alpha.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.hikari.slave-alpha.jdbc-url=jdbc:mysql://localhost/product_slave_alpha?useSSL=false
+spring.datasource.hikari.slave-alpha.port=3306
+spring.datasource.hikari.slave-alpha.username=root
+spring.datasource.hikari.slave-alpha.password=123456
 
 # SlaveBeta datasource config
-spring.datasource.druid.slave-beta.name=SlaveBeta
-spring.datasource.druid.slave-beta.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.druid.slave-beta.url=jdbc:mysql://localhost/product_slave_beta?useSSL=false
-spring.datasource.druid.slave-beta.port=3306
-spring.datasource.druid.slave-beta.username=root
-spring.datasource.druid.slave-beta.password=123456
+spring.datasource.hikari.slave-beta.name=SlaveBeta
+spring.datasource.hikari.slave-beta.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.hikari.slave-beta.jdbc-url=jdbc:mysql://localhost/product_slave_beta?useSSL=false
+spring.datasource.hikari.slave-beta.port=3306
+spring.datasource.hikari.slave-beta.username=root
+spring.datasource.hikari.slave-beta.password=123456
 
 # SlaveGamma datasource config
-spring.datasource.druid.slave-gamma.name=SlaveGamma
-spring.datasource.druid.slave-gamma.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.druid.slave-gamma.url=jdbc:mysql://localhost/product_slave_gamma?useSSL=false
-spring.datasource.druid.slave-gamma.port=3306
-spring.datasource.druid.slave-gamma.username=root
-spring.datasource.druid.slave-gamma.password=123456
+spring.datasource.hikari.slave-gamma.name=SlaveGamma
+spring.datasource.hikari.slave-gamma.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.hikari.slave-gamma.jdbc-url=jdbc:mysql://localhost/product_slave_gamma?useSSL=false
+spring.datasource.hikari.slave-gamma.port=3306
+spring.datasource.hikari.slave-gamma.username=root
+spring.datasource.hikari.slave-gamma.password=123456
 
-# Druid dataSource config
-spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
-spring.datasource.druid.initial-size=5
-spring.datasource.druid.max-active=20
-spring.datasource.druid.min-idle=5
-spring.datasource.druid.max-wait=60000
-spring.datasource.druid.pool-prepared-statements=false
-spring.datasource.druid.validation-query=SELECT 1
-spring.datasource.druid.validation-query-timeout=30000
-spring.datasource.druid.test-on-borrow=false
-spring.datasource.druid.test-on-return=false
-spring.datasource.druid.test-while-idle=true
-#spring.datasource.druid.time-between-eviction-runs-millis=
-#spring.datasource.druid.min-evictable-idle-time-millis=
-#spring.datasource.druid.max-evictable-idle-time-millis=10000
-
-# Druid stat filter config
-spring.datasource.druid.filters=stat,wall,log4j
-spring.datasource.druid.web-stat-filter.enabled=true
-spring.datasource.druid.web-stat-filter.url-pattern=/*
-spring.datasource.druid.web-stat-filter.exclusions=*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*
-spring.datasource.druid.web-stat-filter.session-stat-enable=true
-spring.datasource.druid.web-stat-filter.session-stat-max-count=10
-spring.datasource.druid.web-stat-filter.principal-session-name=user
-#spring.datasource.druid.web-stat-filter.principal-cookie-name=
-spring.datasource.druid.web-stat-filter.profile-enable=true
-spring.datasource.druid.filter.stat.db-type=mysql
-spring.datasource.druid.filter.stat.log-slow-sql=true
-spring.datasource.druid.filter.stat.slow-sql-millis=1000
-spring.datasource.druid.filter.stat.merge-sql=true
-spring.datasource.druid.filter.wall.enabled=true
-spring.datasource.druid.filter.wall.config.delete-allow=true
-spring.datasource.druid.filter.wall.config.drop-table-allow=false
-spring.datasource.druid.filter.slf4j.enabled=true
-# Druid manage page config
-spring.datasource.druid.stat-view-servlet.enabled=true
-spring.datasource.druid.stat-view-servlet.url-pattern=/druid/*
-spring.datasource.druid.stat-view-servlet.reset-enable=true
-spring.datasource.druid.stat-view-servlet.login-username=admin
-spring.datasource.druid.stat-view-servlet.login-password=admin
-#spring.datasource.druid.stat-view-servlet.allow=
-#spring.datasource.druid.stat-view-servlet.deny=
-spring.datasource.druid.use-global-data-source-stat=true
-# Druid AOP config
-spring.datasource.druid.aop-patterns=cn.com.hellowood.dynamicdatasource.service.*
 spring.aop.proxy-target-class=true
-
-# MyBatis config
-mybatis.type-aliases-package=cn.com.hellowood.dynamicdatasource.mapper
-mybatis.mapper-locations=mappers/**Mapper.xml
 server.port=9999
 ```
 
@@ -216,7 +169,7 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
 package cn.com.hellowood.dynamicdatasource.configuration;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -239,9 +192,9 @@ public class DataSourceConfigurer {
      */
     @Bean("master")
     @Primary
-    @ConfigurationProperties(prefix = "spring.datasource.druid.master")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.master")
     public DataSource master() {
-        return DruidDataSourceBuilder.create().build();
+        return DataSourceBuilder.create().build();
     }
 
     /**
@@ -250,9 +203,9 @@ public class DataSourceConfigurer {
      * @return the data source
      */
     @Bean("slaveAlpha")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-alpha")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.slave-alpha")
     public DataSource slaveAlpha() {
-        return DruidDataSourceBuilder.create().build();
+        return DataSourceBuilder.create().build();
     }
 
     /**
@@ -261,9 +214,9 @@ public class DataSourceConfigurer {
      * @return the data source
      */
     @Bean("slaveBeta")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.slave-beta")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.slave-beta")
     public DataSource slaveBeta() {
-        return DruidDataSourceBuilder.create().build();
+        return DataSourceBuilder.create().build();
     }
 
     /**
@@ -274,7 +227,7 @@ public class DataSourceConfigurer {
     @Bean("slaveGamma")
     @ConfigurationProperties(prefix = "spring.datasource.druid.slave-gamma")
     public DataSource slaveGamma() {
-        return DruidDataSourceBuilder.create().build();
+        return DataSourceBuilder.create().build();
     }
 
     /**
@@ -316,6 +269,10 @@ public class DataSourceConfigurer {
     @ConfigurationProperties(prefix = "mybatis")
     public SqlSessionFactoryBean sqlSessionFactoryBean() {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        // 配置 MyBatis
+        sqlSessionFactoryBean.setTypeAliasesPackage("cn.com.hellowood.dynamicdatasource.mapper");
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("mappers/**Mapper.xml"));
+
         // 配置数据源，此处配置为关键配置，如果没有将 dynamicDataSource 作为数据源则不能实现切换
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
         return sqlSessionFactoryBean;
@@ -347,17 +304,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class DynamicDataSourceContextHolder {
 
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceContextHolder.class);
-
-    /**
-     * 用于在切换数据源时保证不会被其他线程修改
-     */
-    private static Lock lock = new ReentrantLock();
 
     /**
      * 用于轮循的计数器
@@ -400,7 +350,6 @@ public class DynamicDataSourceContextHolder {
      * 当使用只读数据源时通过轮循方式选择要使用的数据源
      */
     public static void useSlaveDataSource() {
-        lock.lock();
 
         try {
             int datasourceKeyIndex = counter % slaveDataSourceKeys.size();
@@ -410,9 +359,7 @@ public class DynamicDataSourceContextHolder {
             logger.error("Switch slave datasource failed, error message is {}", e.getMessage());
             useMasterDataSource();
             e.printStackTrace();
-        } finally {
-            lock.unlock();
-        }
+        } 
     }
 
     /**
@@ -467,7 +414,7 @@ import org.springframework.stereotype.Component;
 public class DynamicDataSourceAspect {
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceAspect.class);
 
-    private final String[] QUERY_PREFIX = {"select"};
+    private final String[] QUERY_PREFIX = {"get"};
 
     @Pointcut("execution( * cn.com.hellowood.dynamicdatasource.mapper.*.*(..))")
     public void daoAspect() {
@@ -483,7 +430,7 @@ public class DynamicDataSourceAspect {
         }
     }
 
-    @After("daoAspect())")
+    @After("daoAspect()")
     public void restoreDataSource(JoinPoint point) {
         DynamicDataSourceContextHolder.clearDataSourceKey();
         logger.info("Restore DataSource to [{}] in Method [{}]",

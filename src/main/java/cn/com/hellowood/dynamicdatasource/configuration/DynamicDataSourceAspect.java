@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class DynamicDataSourceAspect {
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceAspect.class);
 
-    private final String[] QUERY_PREFIX = {"select"};
+    private final String[] QUERY_PREFIX = {"get"};
 
     /**
      * Dao aspect.
@@ -50,7 +50,7 @@ public class DynamicDataSourceAspect {
      *
      * @param point the point
      */
-    @After("daoAspect())")
+    @After("daoAspect()")
     public void restoreDataSource(JoinPoint point) {
         DynamicDataSourceContextHolder.clearDataSourceKey();
         logger.debug("Restore DataSource to [{}] in Method [{}]",
