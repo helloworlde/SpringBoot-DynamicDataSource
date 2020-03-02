@@ -2,6 +2,7 @@ package cn.com.hellowood.dynamicdatasource.apiutil.config;
 
 
 import cn.com.hellowood.dynamicdatasource.apiutil.interceptor.ApiResponseBodyReturnValueHandler;
+import cn.com.hellowood.dynamicdatasource.configuration.CustomHandlerExceptionResolver;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.format.FormatterRegistry;
@@ -107,7 +108,7 @@ public abstract class BaseWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-
+        exceptionResolvers.add(new CustomHandlerExceptionResolver());
     }
 
     @Override
