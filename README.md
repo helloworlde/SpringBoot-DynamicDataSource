@@ -599,3 +599,8 @@ public interface ProductDao {
 ## 注意
 
 > 在该应用中因为使用了 DAO 层的切面切换数据源，所以 `@Transactional` 注解不能加在类上，只能用于方法；有 `@Trasactional`注解的方法无法切换数据源
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/helloworlde/SpringBoot-DynamicDataSource.svg)](https://starchart.cc/helloworlde/SpringBoot-DynamicDataSource)
