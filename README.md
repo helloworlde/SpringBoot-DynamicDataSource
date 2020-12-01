@@ -7,7 +7,7 @@
 - [druid](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/druid): 通过切面和注解方式实现的使用 Druid 连接池的动态数据源切换
 - [aspect_dao](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao): 通过切面实现的 DAO 层的动态数据源切换
 - [roundrobin](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin): 通过切面使用轮询方式实现的只读数据源负载均衡
-- [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0版本 数据源使用 Hikar
+- [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0版本 数据源使用 Hikari
 - **[多数据源分布式事务](https://github.com/helloworlde/spring-cloud-alibaba-component/tree/master/cloud-seata-multi-datasource): 使用 [Seata](https://github.com/seata/seata) 实现的多数据源事务** 
 
 
@@ -395,7 +395,7 @@ public class DynamicDataSourceContextHolder {
 - DynamicDataSourceAspect.java
 
 > 动态数据源切换的切面，切 DAO 层，通过 DAO 层方法名判断使用哪个数据源，实现数据源切换
-> 关于切面的 Order 可以可以不设，因为 `@Transactional` 是最低的，取决于其他切面的设置，并且在 `org.springframework.core.annotation.AnnotationAwareOrderComparator` 会重新排序
+> 关于切面的 Order 可以不设，因为 `@Transactional` 是最低的，取决于其他切面的设置，并且在 `org.springframework.core.annotation.AnnotationAwareOrderComparator` 会重新排序
 
 ```java
 package cn.com.hellowood.dynamicdatasource.configuration;
