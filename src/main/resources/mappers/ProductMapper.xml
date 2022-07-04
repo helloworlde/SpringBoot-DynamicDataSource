@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hellowood.dynamicdatasource.mapper.ProductDao">
+
+    <resultMap id="baseResultMap" type="cn.com.hellowood.dynamicdatasource.model.Product">
+        <id column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"></id>
+        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="price" property="price" javaType="java.lang.Long" jdbcType="BIGINT"></result>
+    </resultMap>
+
+    <select id="select" resultType="cn.com.hellowood.dynamicdatasource.model.Product">
+        SELECT *
+        FROM product
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+
+    <select id="getAllProduct" resultMap="baseResultMap">
+        SELECT *
+        FROM product
+    </select>
+
+    <update id="update" parameterType="cn.com.hellowood.dynamicdatasource.model.Product" flushCache="true">
+        UPDATE product
+        SET name = #{name}, price = #{price}
+        WHERE id = #{id}
+        LIMIT 1
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM product
+        WHERE id = #{id}
+        LIMIT 1
+    </delete>
+
+    <insert id="insert" parameterType="cn.com.hellowood.dynamicdatasource.model.Product">
+        INSERT INTO product (name, price) VALUES (#{name}, #{price});
+    </insert>
+</mapper>
