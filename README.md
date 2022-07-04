@@ -1,17 +1,6 @@
 # Spring Boot 和 MyBatis 实现多数据源、动态数据源切换
 
-> 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：
-
-- [master](https://github.com/helloworlde/SpringBoot-DynamicDataSource): 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡
-- [dev](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev): 最简单的切面和注解方式实现的动态数据源切换
-- [druid](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/druid): 通过切面和注解方式实现的使用 Druid 连接池的动态数据源切换
-- [aspect_dao](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao): 通过切面实现的 DAO 层的动态数据源切换
-- [roundrobin](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin): 通过切面使用轮询方式实现的只读数据源负载均衡
-- [hikari](https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/hikari): 升级到SpringBoot 2.0版本 数据源使用 Hikari
 - **[多数据源分布式事务](https://github.com/helloworlde/spring-cloud-alibaba-component/tree/master/cloud-seata-multi-datasource): 使用 [Seata](https://github.com/seata/seata) 实现的多数据源事务** 
-
-
-> 以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源
 
 ### 在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 [Issues](https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md) 里面
 
